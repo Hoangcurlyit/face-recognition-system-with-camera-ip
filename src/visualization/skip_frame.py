@@ -1,5 +1,7 @@
 import cv2
 
+
+
 def open_video_stream(source_url):
     cap = cv2.VideoCapture(source_url)
     if not cap.isOpened():
