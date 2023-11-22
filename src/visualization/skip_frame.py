@@ -1,5 +1,4 @@
 import cv2
-
 def capture_rtsp_video_frames_generator(source_url, skip_frames=10):
     # Create a VideoCapture object and read from the specified URL
     cap = cv2.VideoCapture(source_url)

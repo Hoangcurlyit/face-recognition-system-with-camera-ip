@@ -1,4 +1,5 @@
 import cv2
+
 from skip_frame import capture_rtsp_video_frames_generator, display_frames
 
 if __name__ == "__main__":
