@@ -1,55 +1,42 @@
 import cv2
-def capture_rtsp_video_frames_generator(source_url, skip_frames=10):
-    # Create a VideoCapture object and read from the specified URL
-    cap = cv2.VideoCapture(source_url)
 
-    # Check if the camera opened successfully
+def open_video_stream(source_url):
+    cap = cv2.VideoCapture(source_url)
     if not cap.isOpened():
         print("Error opening video stream or file")
-        return
+        return None
+    return cap
 
-    try:
-        # Read until video is completed
+def close_video_stream(cap):
+    cap.release()
+    cv2.destroyAllWindows()
+
+def skip_frames(cap, num_frames):
+    for _ in range(num_frames):
+        cap.grab()
+def display_frame(cap):
+    ret, frame = cap.read()
+    if ret:
+        cv2.imshow('Frame', frame)
+        return True
+    return False
+
+def process_video(source_url, num_skip_frames):
+    cap = open_video_stream(source_url)
+
+    if cap is not None:
         while True:
-            # Skip frames if necessary
-            for _ in range(skip_frames):
-                cap.grab()
+            skip_frames(cap, num_skip_frames)
 
-            # Read the next frame
-            ret, frame = cap.read()
-
-            if ret:
-                # Yield the frame for processing
-                yield frame
-            else:
+            if not display_frame(cap):
                 break
 
-    finally:
-        # Release the video capture object
-        cap.release()
-def display_frames(source_url, skip_frames=10):
-    # Create a generator object
-    frames_generator = capture_rtsp_video_frames_generator(source_url, skip_frames)
+            if cv2.waitKey(25) & 0xFF == ord('q'):
+                break
 
-    # Display frames one by one
-    for frame in frames_generator:
-        cv2.imshow('Frame', frame)
+        close_video_stream(cap)
 
-        # Press Q on keyboard to exit
-        if cv2.waitKey(25) & 0xFF == ord('q'):
-            break
-
-    # Release the video capture object
-    cv2.destroyAllWindows()
-# Example usage:
 if __name__ == "__main__":
     source_url = "rtsp://admin:clbAI_2023@192.168.1.69"
-    skip_frames = 10
-
-    # Create a generator object
-    frames_generator = capture_rtsp_video_frames_generator(source_url, skip_frames)
-
-    # Process frames one by one
-    for frame in frames_generator:
-        # Perform your processing on each frame here
-        pass
+    num_skip_frames=15
+    process_video(source_url,num_skip_frames)
