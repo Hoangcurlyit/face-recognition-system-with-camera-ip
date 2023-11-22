@@ -3,7 +3,7 @@ from ultralytics import YOLO
 import os
 from skip_frame import skip_frames, display_frame, close_video_stream, open_video_stream
 # Khởi tạo mô hình YOLO
-model = YOLO('C:/Users/20521/OneDrive/Desktop/KLTN/face-recognition-system-with-camera-ip/models/yolov8n-face.pt') 
+model = YOLO('C:/Users/20521/OneDrive/Desktop/CV/face-recognition-system-with-camera-ip/models/yolov8n-face.pt') 
 
 def open_video_stream(source_url):
     cap = cv2.VideoCapture(source_url)
@@ -64,5 +64,5 @@ def process_video(source_url, num_skip_frames, save_dir):
 if __name__ == "__main__":
     source_url = "rtsp://admin:clbAI_2023@192.168.1.69"
     num_skip_frames = 10
-    save_directory = 'C:/Users/20521/OneDrive/Desktop/KLTN/face-recognition-system-with-camera-ip/src/data/face'
+    save_directory = 'C:/Users/20521/OneDrive/Desktop/CV/face-recognition-system-with-camera-ip/src/data/face'
     process_video(source_url, num_skip_frames, save_directory)
